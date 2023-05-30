@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: SECURITY-SERVICE
+  zipkin:
+    base-url: http://localhost:9411/zipkin/
+  data-source:
+    url: jdbc:mysql://localhost:3306/user_registration
+    username: root
+    password: root@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: mittul.store.liquor@gmail.com
+    password: lyadufzwgkgnfbum
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+twilio:
+  account_sid: ACbc1a35dc5c725cc49b2d0e8b00271522
+  auth_token: 35f77cdcb501b7654af6de1433f1718e
+  trial_number: +14256007803
+
+jwt:
+  secret: 4E645267556B58703272357538782F413F4428472B4B6250655368566D5971337436763979244226452948404D635166546A576E5A7234753778217A25432A46
