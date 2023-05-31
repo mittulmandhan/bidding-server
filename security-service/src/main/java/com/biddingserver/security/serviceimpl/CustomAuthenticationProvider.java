@@ -1,4 +1,4 @@
-package com.liquorstore.security.serviceimpl;
+package com.biddingserver.security.serviceimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;

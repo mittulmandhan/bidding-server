@@ -1,7 +1,7 @@
-package com.liquorstore.security.serviceimpl;
+package com.biddingserver.security.serviceimpl;
 
-import com.liquorstore.security.entity.User;
-import com.liquorstore.security.repository.UserRepository;
+import com.biddingserver.security.entity.User;
+import com.biddingserver.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

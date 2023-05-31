@@ -1,4 +1,4 @@
-package com.liquorstore.security.utility;
+package com.biddingserver.security.utility;
 
 public enum Roles {
     ADMIN,USER

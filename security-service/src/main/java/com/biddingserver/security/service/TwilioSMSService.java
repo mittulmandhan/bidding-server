@@ -1,6 +1,6 @@
-package com.liquorstore.security.service;
+package com.biddingserver.security.service;
 
-import com.liquorstore.security.utility.OtpStatus;
+import com.biddingserver.security.utility.OtpStatus;
 
 public interface TwilioSMSService {
 

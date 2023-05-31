@@ -1,4 +1,4 @@
-package com.liquorstore.security.utility;
+package com.biddingserver.security.utility;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

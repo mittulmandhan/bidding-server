@@ -1,6 +1,6 @@
-package com.liquorstore.security;
+package com.biddingserver.security;
 
-import com.liquorstore.security.config.TwilioConfig;
+import com.biddingserver.security.config.TwilioConfig;
 import com.twilio.Twilio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;

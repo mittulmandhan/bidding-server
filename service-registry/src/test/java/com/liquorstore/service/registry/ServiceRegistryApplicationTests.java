@@ -1,4 +1,4 @@
-package com.liquorstore.service.registry;
+package com.biddingserver.service.registry;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

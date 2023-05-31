@@ -1,7 +1,7 @@
-package com.liquorstore.security.config;
+package com.biddingserver.security.config;
 
-import com.liquorstore.security.filter.JwtFilter;
-import com.liquorstore.security.serviceimpl.CustomUserDetailsService;
+import com.biddingserver.security.filter.JwtFilter;
+import com.biddingserver.security.serviceimpl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

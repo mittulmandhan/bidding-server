@@ -1,11 +1,11 @@
-package com.liquorstore.security.service;
+package com.biddingserver.security.service;
 
-import com.liquorstore.security.entity.User;
-import com.liquorstore.security.entity.VerificationToken;
-import com.liquorstore.security.model.ContactNumberModel;
-import com.liquorstore.security.model.OTPModel;
-import com.liquorstore.security.model.UserModel;
-import com.liquorstore.security.utility.OtpStatus;
+import com.biddingserver.security.entity.User;
+import com.biddingserver.security.entity.VerificationToken;
+import com.biddingserver.security.model.ContactNumberModel;
+import com.biddingserver.security.model.OTPModel;
+import com.biddingserver.security.model.UserModel;
+import com.biddingserver.security.utility.OtpStatus;
 
 import java.util.Optional;
 

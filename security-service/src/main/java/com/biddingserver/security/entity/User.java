@@ -1,6 +1,6 @@
-package com.liquorstore.security.entity;
+package com.biddingserver.security.entity;
 
-import com.liquorstore.security.utility.Roles;
+import com.biddingserver.security.utility.Roles;
 import lombok.Data;
 
 import javax.management.relation.Role;

@@ -1,4 +1,4 @@
-package com.liquorstore.cloud.gateway;
+package com.biddingserver.cloud.gateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

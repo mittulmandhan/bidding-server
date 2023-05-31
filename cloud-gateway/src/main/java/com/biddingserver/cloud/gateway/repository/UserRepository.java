@@ -1,7 +1,7 @@
-package com.liquorstore.cloud.gateway.repository;
+package com.biddingserver.cloud.gateway.repository;
 
 
-import com.liquorstore.cloud.gateway.entity.User;
+import com.biddingserver.cloud.gateway.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

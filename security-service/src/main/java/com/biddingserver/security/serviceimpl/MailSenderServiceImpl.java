@@ -1,6 +1,6 @@
-package com.liquorstore.security.serviceimpl;
+package com.biddingserver.security.serviceimpl;
 
-import com.liquorstore.security.service.MailSenderService;
+import com.biddingserver.security.service.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

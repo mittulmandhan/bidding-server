@@ -1,8 +1,8 @@
-package com.liquorstore.security.serviceimpl;
+package com.biddingserver.security.serviceimpl;
 
-import com.liquorstore.security.config.TwilioConfig;
-import com.liquorstore.security.service.TwilioSMSService;
-import com.liquorstore.security.utility.OtpStatus;
+import com.biddingserver.security.config.TwilioConfig;
+import com.biddingserver.security.service.TwilioSMSService;
+import com.biddingserver.security.utility.OtpStatus;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import org.springframework.beans.factory.annotation.Autowired;

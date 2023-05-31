@@ -1,4 +1,4 @@
-package com.liquorstore.security.service;
+package com.biddingserver.security.service;
 
 public interface MailSenderService {
 

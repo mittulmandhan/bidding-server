@@ -1,4 +1,4 @@
-package com.liquorstore.security.model;
+package com.biddingserver.security.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

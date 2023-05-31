@@ -1,9 +1,9 @@
-package com.liquorstore.security.event.listener;
+package com.biddingserver.security.event.listener;
 
-import com.liquorstore.security.entity.User;
-import com.liquorstore.security.event.RegistrationCompleteEvent;
-import com.liquorstore.security.service.MailSenderService;
-import com.liquorstore.security.service.UserService;
+import com.biddingserver.security.entity.User;
+import com.biddingserver.security.event.RegistrationCompleteEvent;
+import com.biddingserver.security.service.MailSenderService;
+import com.biddingserver.security.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;

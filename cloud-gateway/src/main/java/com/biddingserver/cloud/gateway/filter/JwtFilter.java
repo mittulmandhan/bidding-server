@@ -1,11 +1,11 @@
-package com.liquorstore.cloud.gateway.filter;
+package com.biddingserver.cloud.gateway.filter;
 
-import com.liquorstore.cloud.gateway.entity.User;
-import com.liquorstore.cloud.gateway.model.CustomUserDetails;
-import com.liquorstore.cloud.gateway.model.UserDetailsRequest;
-import com.liquorstore.cloud.gateway.repository.UserRepository;
-import com.liquorstore.cloud.gateway.util.JWTUtility;
-import com.liquorstore.cloud.gateway.validator.RouterValidator;
+import com.biddingserver.cloud.gateway.entity.User;
+import com.biddingserver.cloud.gateway.model.CustomUserDetails;
+import com.biddingserver.cloud.gateway.model.UserDetailsRequest;
+import com.biddingserver.cloud.gateway.repository.UserRepository;
+import com.biddingserver.cloud.gateway.util.JWTUtility;
+import com.biddingserver.cloud.gateway.validator.RouterValidator;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;

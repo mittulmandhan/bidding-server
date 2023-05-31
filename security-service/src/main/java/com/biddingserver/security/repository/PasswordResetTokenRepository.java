@@ -1,6 +1,6 @@
-package com.liquorstore.security.repository;
+package com.biddingserver.security.repository;
 
-import com.liquorstore.security.entity.PasswordResetToken;
+import com.biddingserver.security.entity.PasswordResetToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

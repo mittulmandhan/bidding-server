@@ -1,10 +1,10 @@
-package com.liquorstore.security.event.listener;
+package com.biddingserver.security.event.listener;
 
-import com.liquorstore.security.entity.OneTimePassword;
-import com.liquorstore.security.entity.User;
-import com.liquorstore.security.event.ContactNumberAddEvent;
-import com.liquorstore.security.service.OneTimePasswordService;
-import com.liquorstore.security.service.TwilioSMSService;
+import com.biddingserver.security.entity.OneTimePassword;
+import com.biddingserver.security.entity.User;
+import com.biddingserver.security.event.ContactNumberAddEvent;
+import com.biddingserver.security.service.OneTimePasswordService;
+import com.biddingserver.security.service.TwilioSMSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;

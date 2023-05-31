@@ -1,4 +1,4 @@
-package com.liquorstore.cloud.gateway.util;
+package com.biddingserver.cloud.gateway.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,4 +1,4 @@
-package com.liquorstore.service.registry;
+package com.biddingserver.service.registry;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

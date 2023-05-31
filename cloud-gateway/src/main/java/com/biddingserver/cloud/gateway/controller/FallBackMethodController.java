@@ -1,4 +1,4 @@
-package com.liquorstore.cloud.gateway.controller;
+package com.biddingserver.cloud.gateway.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class FallBackMethodController {
 
-    @GetMapping("/userServiceFallBack")
-    public String userServiceFallBackMethod() {
-        return "User Service is taking longer than usual" +
+    @GetMapping("/auctionServiceFallBack")
+    public String auctionServiceFallBackMethod() {
+        return "Use Service is taking longer than usual" +
                 "Please try again later!";
     }
 

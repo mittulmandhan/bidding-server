@@ -1,4 +1,4 @@
-package com.liquorstore.cloud.gateway.entity;
+package com.biddingserver.cloud.gateway.entity;
 
 import lombok.Data;
 

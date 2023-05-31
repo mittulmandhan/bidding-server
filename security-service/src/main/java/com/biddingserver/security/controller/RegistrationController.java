@@ -1,15 +1,15 @@
-package com.liquorstore.security.controller;
+package com.biddingserver.security.controller;
 
-import com.liquorstore.security.entity.User;
-import com.liquorstore.security.entity.VerificationToken;
-import com.liquorstore.security.event.ContactNumberAddEvent;
-import com.liquorstore.security.event.RegistrationCompleteEvent;
-import com.liquorstore.security.model.*;
-import com.liquorstore.security.service.MailSenderService;
-import com.liquorstore.security.service.UserService;
-import com.liquorstore.security.serviceimpl.CustomAuthenticationProvider;
-import com.liquorstore.security.serviceimpl.CustomUserDetailsService;
-import com.liquorstore.security.utility.JWTUtility;
+import com.biddingserver.security.entity.User;
+import com.biddingserver.security.entity.VerificationToken;
+import com.biddingserver.security.event.ContactNumberAddEvent;
+import com.biddingserver.security.event.RegistrationCompleteEvent;
+import com.biddingserver.security.model.*;
+import com.biddingserver.security.service.MailSenderService;
+import com.biddingserver.security.service.UserService;
+import com.biddingserver.security.serviceimpl.CustomAuthenticationProvider;
+import com.biddingserver.security.serviceimpl.CustomUserDetailsService;
+import com.biddingserver.security.utility.JWTUtility;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;

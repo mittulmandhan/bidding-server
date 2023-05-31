@@ -1,4 +1,4 @@
-package com.liquorstore.security;
+package com.biddingserver.security;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

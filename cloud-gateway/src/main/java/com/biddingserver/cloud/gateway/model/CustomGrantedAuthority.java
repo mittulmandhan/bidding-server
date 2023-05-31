@@ -1,4 +1,4 @@
-package com.liquorstore.cloud.gateway.model;
+package com.biddingserver.cloud.gateway.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

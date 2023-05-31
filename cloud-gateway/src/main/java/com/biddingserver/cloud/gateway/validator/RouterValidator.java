@@ -1,4 +1,4 @@
-package com.liquorstore.cloud.gateway.validator;
+package com.biddingserver.cloud.gateway.validator;
 
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;

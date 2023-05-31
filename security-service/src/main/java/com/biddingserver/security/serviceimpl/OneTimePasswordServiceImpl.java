@@ -1,8 +1,8 @@
-package com.liquorstore.security.serviceimpl;
+package com.biddingserver.security.serviceimpl;
 
-import com.liquorstore.security.entity.OneTimePassword;
-import com.liquorstore.security.repository.OneTimePasswordRepository;
-import com.liquorstore.security.service.OneTimePasswordService;
+import com.biddingserver.security.entity.OneTimePassword;
+import com.biddingserver.security.repository.OneTimePasswordRepository;
+import com.biddingserver.security.service.OneTimePasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

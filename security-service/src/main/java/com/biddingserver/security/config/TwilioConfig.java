@@ -1,4 +1,4 @@
-package com.liquorstore.security.config;
+package com.biddingserver.security.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

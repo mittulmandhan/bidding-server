@@ -1,6 +1,6 @@
-package com.liquorstore.security.service;
+package com.biddingserver.security.service;
 
-import com.liquorstore.security.entity.OneTimePassword;
+import com.biddingserver.security.entity.OneTimePassword;
 
 public interface OneTimePasswordService {
     void save(OneTimePassword oneTimePassword);
