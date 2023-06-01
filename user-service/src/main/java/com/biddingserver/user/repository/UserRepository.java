@@ -1,6 +1,6 @@
-package com.liquorstore.user.repository;
+package com.biddingserver.user.repository;
 
-import com.liquorstore.user.entity.CustomUser;
+import com.biddingserver.user.entity.CustomUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

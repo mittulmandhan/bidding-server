@@ -1,6 +1,6 @@
-package com.liquorstore.user;
+package com.biddingserver.user;
 
-import com.liquorstore.user.VO.ResponseTemplateVO;
+import com.biddingserver.user.VO.ResponseTemplateVO;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;

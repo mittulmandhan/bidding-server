@@ -1,7 +1,7 @@
-package com.liquorstore.user.service;
+package com.biddingserver.user.service;
 
-import com.liquorstore.user.VO.ResponseTemplateVO;
-import com.liquorstore.user.entity.CustomUser;
+import com.biddingserver.user.VO.ResponseTemplateVO;
+import com.biddingserver.user.entity.CustomUser;
 
 public interface UserService {
 

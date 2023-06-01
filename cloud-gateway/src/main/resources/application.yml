@@ -17,15 +17,15 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: AUCTION-SERVER
-          uri: lb://AUCTION-SERVER
+        - id: AUCTION-SERVICE
+          uri: lb://AUCTION-SERVICE
           predicates:
-            - Path=/auctions/**
+            - Path=/auction/**
           filters:
             - name: CircuitBreaker
               args:
                 name: AUCTION-SERVICE
-                fallbackuri: forward:/userServiceFallBack
+                fallbackuri: forward:/auctionServiceFallBack
         - id: DEPARTMENT-SERVICE
           uri: lb://DEPARTMENT-SERVICE
           predicates:

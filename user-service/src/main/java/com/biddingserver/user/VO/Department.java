@@ -1,4 +1,4 @@
-package com.liquorstore.user.VO;
+package com.biddingserver.user.VO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

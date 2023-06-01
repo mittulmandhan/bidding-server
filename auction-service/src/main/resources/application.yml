@@ -3,6 +3,16 @@ server:
 
 spring:
   application:
-    name: USER-SERVICE
+    name: AUCTION-SERVICE
+  data-source:
+    url: jdbc:mysql://localhost:3306/user_registration
+    username: root
+    password: root@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
   zipkin:
     base-url: http://localhost:9411/zipkin/

@@ -1,4 +1,4 @@
-package com.liquorstore.user.entity;
+package com.biddingserver.user.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -8,7 +8,7 @@ public class FallBackMethodController {
 
     @GetMapping("/auctionServiceFallBack")
     public String auctionServiceFallBackMethod() {
-        return "Use Service is taking longer than usual" +
+        return "Auction Service is taking longer than usual" +
                 "Please try again later!";
     }
 

@@ -1,12 +1,8 @@
-package com.biddingserver.security.entity;
+package com.biddingserver.auctionservice.entity;
 
-import com.biddingserver.security.utility.Roles;
 import lombok.Data;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 
 @Entity
 @Data

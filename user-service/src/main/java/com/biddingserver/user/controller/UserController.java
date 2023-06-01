@@ -1,8 +1,8 @@
-package com.liquorstore.user.controller;
+package com.biddingserver.user.controller;
 
-import com.liquorstore.user.VO.ResponseTemplateVO;
-import com.liquorstore.user.entity.CustomUser;
-import com.liquorstore.user.service.UserService;
+import com.biddingserver.user.VO.ResponseTemplateVO;
+import com.biddingserver.user.entity.CustomUser;
+import com.biddingserver.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
