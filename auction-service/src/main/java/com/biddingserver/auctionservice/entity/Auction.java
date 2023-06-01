@@ -1,5 +1,6 @@
 package com.biddingserver.auctionservice.entity;
 
+import com.biddingserver.auctionservice.utility.AuctionStatus;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,4 +21,6 @@ public class Auction {
     private Long stepRate;
 
     private Integer duration;
+
+    private String status;
 }
