@@ -1,13 +1,11 @@
 package com.biddingserver.auctionservice.serviceimpl;
 
-import com.biddingserver.auctionservice.config.RabbitMQConfig;
 import com.biddingserver.auctionservice.entity.Auction;
 import com.biddingserver.auctionservice.model.AuctionRequestDTO;
-import com.biddingserver.auctionservice.event.AuctionWinnerMailEvent;
 import com.biddingserver.auctionservice.repository.AuctionRepository;
 import com.biddingserver.auctionservice.service.AuctionService;
 import com.biddingserver.auctionservice.utility.AuctionStatus;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import com.biddingserver.auctionservice.utility.AuctionUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +16,7 @@ public class AuctionServiceImpl implements AuctionService {
     private AuctionRepository auctionRepository;
 
     @Autowired
-    private RabbitTemplate template;
+    private AuctionUtility auctionUtility;
 
     @Override
     public Long createAuction(AuctionRequestDTO auctionRequestDTO) {
@@ -26,12 +24,7 @@ public class AuctionServiceImpl implements AuctionService {
 
         auction = auctionRepository.save(auction);
 
-        AuctionWinnerMailEvent auctionWinnerMailEvent = new AuctionWinnerMailEvent();
-        auctionWinnerMailEvent.setAuctionId(auction.getId());
-
-        template.convertAndSend(RabbitMQConfig.EXCHANGE,
-                RabbitMQConfig.ROUTING_KEY,
-                auctionWinnerMailEvent);
+        auctionUtility.closeAuctionAfter(auction.getId(), auction.getDuration());
 
         return auction.getId();
     }

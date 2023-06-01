@@ -2,11 +2,13 @@ package com.biddingserver.auctionservice.entity;
 
 import com.biddingserver.auctionservice.utility.AuctionStatus;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@ToString
 public class Auction {
 
     @Id
