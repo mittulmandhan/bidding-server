@@ -14,5 +14,9 @@ spring:
     hibernate:
       ddl-auto: update
     defer-datasource-initialization: true
+  rabbitmq:
+    addresses: localhost:5672
+    queue: auction_mail_queue
+    exchange: auction_mail_queue
   zipkin:
     base-url: http://localhost:9411/zipkin/

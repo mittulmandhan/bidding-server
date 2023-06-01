@@ -27,6 +27,10 @@ spring:
           auth: true
           starttls:
             enable: true
+  rabbitmq:
+    addresses: localhost:5672
+    queue: auction_mail_queue
+    exchange: auction_mail_queue
 
 twilio:
   account_sid: ACbc1a35dc5c725cc49b2d0e8b00271522
