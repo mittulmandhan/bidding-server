@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class AuctionServiceImpl implements AuctionService {
 
     @Autowired
-    AuctionRepository auctionRepository;
+    private AuctionRepository auctionRepository;
 
     @Override
     public Long createAuction(AuctionRequestDTO auctionRequestDTO) {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuctionController {
 
     @Autowired
-    AuctionService auctionService;
+    private AuctionService auctionService;
 
     @PostMapping("/")
     public Long startAuction(@RequestBody AuctionRequestDTO auctionRequestDTO) {
