@@ -54,7 +54,7 @@ public class AuctionUtility {
             return;
 
         AuctionWinnerMailEvent auctionWinnerMailEvent = new AuctionWinnerMailEvent();
-        auctionWinnerMailEvent.setAuctionId(auction.getId());
+        auctionWinnerMailEvent.setItemCode(auction.getItemCode());
         auctionWinnerMailEvent.setWinnerEmail(auction.getWinnerEmail());
 
         template.convertAndSend(RabbitMQConfig.EXCHANGE,

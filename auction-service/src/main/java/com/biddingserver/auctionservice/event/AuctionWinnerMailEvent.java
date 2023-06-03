@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class AuctionWinnerMailEvent {
 
-    private Long auctionId;
+    private Long itemCode;
     private String winnerEmail;
 
 }
