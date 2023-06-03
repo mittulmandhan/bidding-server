@@ -58,9 +58,9 @@ public class BidServiceImpl implements BidService {
         Date currentTime = new Date();
         Date auctionExpirationTime = DateUtils.addMinutes(new Date(auction.getCreateDate()), 10);
 
-        System.out.println("current time: " + currentTime);
-        System.out.println("auction creation time: " + new Date(auction.getCreateDate()));
-        System.out.println("auction expiration time: " + auctionExpirationTime);
+//        System.out.println("current time: " + currentTime);
+//        System.out.println("auction creation time: " + new Date(auction.getCreateDate()));
+//        System.out.println("auction expiration time: " + auctionExpirationTime);
 
         return currentTime.after(auctionExpirationTime);
     }
