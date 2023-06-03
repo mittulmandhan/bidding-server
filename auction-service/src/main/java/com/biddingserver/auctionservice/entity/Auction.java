@@ -25,4 +25,8 @@ public class Auction {
     private Integer duration;
 
     private String status;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "highest_bid_id", nullable = true)
+    private Bid highestBid;
 }
