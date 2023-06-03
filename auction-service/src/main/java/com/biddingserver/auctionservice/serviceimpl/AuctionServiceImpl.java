@@ -34,8 +34,6 @@ public class AuctionServiceImpl implements AuctionService {
 
         auction = auctionRepository.save(auction);
 
-//        auctionUtility.closeAuctionAfter(auction.getId(), auction.getDuration());
-
         return auction.getId();
     }
 
