@@ -1,6 +1,7 @@
 package com.biddingserver.auctionservice.controller;
 
 import com.biddingserver.auctionservice.model.AuctionRequestDTO;
+import com.biddingserver.auctionservice.model.AuctionResponseDto;
 import com.biddingserver.auctionservice.model.BidRequestDTO;
 import com.biddingserver.auctionservice.service.AuctionService;
 import com.biddingserver.auctionservice.service.BidService;
@@ -8,6 +9,8 @@ import com.biddingserver.auctionservice.utility.AuctionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/auction")
@@ -26,16 +29,12 @@ public class AuctionController {
     }
 
     @GetMapping("/")
-    public String getAuctionsByStatus(@RequestParam String status) {
+    public List<AuctionResponseDto> getAuctionsByStatus(@RequestParam String status) {
         if(!isStatusValid(status)) {
-            return "Invalid Status";
+            return null;
         }
-        AuctionStatus auctionStatus = AuctionStatus.valueOf(status.toUpperCase());
 
-        if(auctionStatus.equals(AuctionStatus.RUNNING)) {
-            return "Running Auctions";
-        }
-        return "Over Auctions";
+        return auctionService.getAuctionsByStatus(status.toUpperCase());
     }
 
     @PostMapping("/{itemCode}/bid")
