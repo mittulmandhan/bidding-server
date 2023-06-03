@@ -50,6 +50,9 @@ public class AuctionUtility {
         auction.setStatus(AuctionStatus.OVER.toString());
         auction = auctionRepository.save(auction);
 
+        if(auction.getWinnerEmail() == null)
+            return;
+
         AuctionWinnerMailEvent auctionWinnerMailEvent = new AuctionWinnerMailEvent();
         auctionWinnerMailEvent.setAuctionId(auction.getId());
         auctionWinnerMailEvent.setWinnerEmail(auction.getWinnerEmail());

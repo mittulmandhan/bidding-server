@@ -8,8 +8,6 @@ import com.biddingserver.auctionservice.repository.AuctionRepository;
 import com.biddingserver.auctionservice.repository.BidRepository;
 import com.biddingserver.auctionservice.service.AuctionService;
 import com.biddingserver.auctionservice.utility.AuctionStatus;
-import com.biddingserver.auctionservice.utility.AuctionUtility;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +67,7 @@ public class AuctionServiceImpl implements AuctionService {
         auction.setStepRate(auctionRequestDTO.getStepRate());
         auction.setDuration(auctionRequestDTO.getDuration());
         auction.setStatus(AuctionStatus.RUNNING.toString());
+
         return auction;
     }
 }
