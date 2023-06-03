@@ -25,6 +25,11 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public Long createAuction(AuctionRequestDTO auctionRequestDTO) {
+
+        // if auction is already running for the given item code then don't run auction
+        if(itemHasRunningAuctionAlready(auctionRequestDTO.getItemCode()))
+            return null;
+
         Auction auction = getAuctionFromAuctionRequestDTO(auctionRequestDTO);
 
         auction = auctionRepository.save(auction);
@@ -32,6 +37,10 @@ public class AuctionServiceImpl implements AuctionService {
 //        auctionUtility.closeAuctionAfter(auction.getId(), auction.getDuration());
 
         return auction.getId();
+    }
+
+    private boolean itemHasRunningAuctionAlready(Long itemCode) {
+        return auctionRepository.findByItemCodeAndStatus(itemCode, AuctionStatus.RUNNING.toString()) != null;
     }
 
     @Override
