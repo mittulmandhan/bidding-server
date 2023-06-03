@@ -9,6 +9,7 @@ import com.biddingserver.auctionservice.repository.BidRepository;
 import com.biddingserver.auctionservice.repository.UserRepository;
 import com.biddingserver.auctionservice.service.BidService;
 import com.biddingserver.auctionservice.utility.AuctionStatus;
+import com.biddingserver.auctionservice.utility.AuctionUtility;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,16 +41,10 @@ public class BidServiceImpl implements BidService {
 
         if(isBidAcceptable(auction, bid)) {
             auction.setHighestBid(bid);
+            auction.setWinnerEmail(bid.getUser().getEmail());
             auctionRepository.save(auction);
             return new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED);
         }
-//        else if(auction.getHighestBid() != null && bid.getBidAmount() >= (auction.getHighestBid().getBidAmount() + auction.getStepRate())) {
-//            auction.setHighestBid(bid);
-//            auctionRepository.save(auction);
-//            return new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED);
-//        }
-
-
 
         return new ResponseEntity<>("Bid is Rejected", HttpStatus.NOT_ACCEPTABLE);
     }
@@ -58,9 +53,9 @@ public class BidServiceImpl implements BidService {
         Date currentTime = new Date();
         Date auctionExpirationTime = DateUtils.addMinutes(new Date(auction.getCreateDate()), 10);
 
-        System.out.println("current time: " + currentTime);
-        System.out.println("auction creation time: " + new Date(auction.getCreateDate()));
-        System.out.println("auction expiration time: " + auctionExpirationTime);
+//        System.out.println("current time: " + currentTime);
+//        System.out.println("auction creation time: " + new Date(auction.getCreateDate()));
+//        System.out.println("auction expiration time: " + auctionExpirationTime);
 
         return currentTime.after(auctionExpirationTime);
     }

@@ -34,4 +34,7 @@ public class Auction {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "highest_bid_id")
     private Bid highestBid;
+
+
+    private String winnerEmail;
 }
