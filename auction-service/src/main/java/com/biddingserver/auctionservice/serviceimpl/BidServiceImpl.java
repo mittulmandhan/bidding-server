@@ -9,10 +9,13 @@ import com.biddingserver.auctionservice.repository.BidRepository;
 import com.biddingserver.auctionservice.repository.UserRepository;
 import com.biddingserver.auctionservice.service.BidService;
 import com.biddingserver.auctionservice.utility.AuctionStatus;
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class BidServiceImpl implements BidService {
@@ -30,7 +33,7 @@ public class BidServiceImpl implements BidService {
     public ResponseEntity<String> bidByItem(BidRequestDTO bidRequestDTO, Long itemCode, String userEmail) {
         Auction auction = auctionRepository.findByItemCodeAndStatus(itemCode, AuctionStatus.RUNNING.toString());
 
-        if(auction == null)
+        if(auction == null || isAuctionExpired(auction))
             return new ResponseEntity<>("Auction Not Found", HttpStatus.NOT_FOUND);
 
         Bid bid = prepareBid(bidRequestDTO, auction, userEmail);
@@ -51,14 +54,25 @@ public class BidServiceImpl implements BidService {
         return new ResponseEntity<>("Bid is Rejected", HttpStatus.NOT_ACCEPTABLE);
     }
 
+    private boolean isAuctionExpired(Auction auction) {
+        Date currentTime = new Date();
+        Date auctionExpirationTime = DateUtils.addMinutes(new Date(auction.getCreateDate()), 10);
+
+        System.out.println("current time: " + currentTime);
+        System.out.println("auction creation time: " + new Date(auction.getCreateDate()));
+        System.out.println("auction expiration time: " + auctionExpirationTime);
+
+        return currentTime.after(auctionExpirationTime);
+    }
+
     // Checks if the bid must be accepted or not
     private boolean isBidAcceptable(Auction auction, Bid bid) {
+
         // check if this is the first bid then must be greater or equal to base price
         boolean result = auction.getHighestBid() == null && bid.getBidAmount() >=  auction.getBasePrice();
 
         // or if there exists a bid already then incoming bid must be greater than or equal to the sum of existing highest bid and step rate
         result = result || auction.getHighestBid() != null && bid.getBidAmount() >= (auction.getHighestBid().getBidAmount() + auction.getStepRate());
-
 
         return result;
     }
