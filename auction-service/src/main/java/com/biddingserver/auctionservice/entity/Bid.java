@@ -19,4 +19,8 @@ public class Bid {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "auction_id", nullable = false)
+    private Auction auction;
+
 }
