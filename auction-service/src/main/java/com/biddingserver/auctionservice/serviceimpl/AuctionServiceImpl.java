@@ -6,6 +6,7 @@ import com.biddingserver.auctionservice.repository.AuctionRepository;
 import com.biddingserver.auctionservice.service.AuctionService;
 import com.biddingserver.auctionservice.utility.AuctionStatus;
 import com.biddingserver.auctionservice.utility.AuctionUtility;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +16,13 @@ public class AuctionServiceImpl implements AuctionService {
     @Autowired
     private AuctionRepository auctionRepository;
 
-    @Autowired
-    private AuctionUtility auctionUtility;
-
     @Override
     public Long createAuction(AuctionRequestDTO auctionRequestDTO) {
         Auction auction = getAuctionFromAuctionRequestDTO(auctionRequestDTO);
 
         auction = auctionRepository.save(auction);
 
-        auctionUtility.closeAuctionAfter(auction.getId(), auction.getDuration());
+//        auctionUtility.closeAuctionAfter(auction.getId(), auction.getDuration());
 
         return auction.getId();
     }

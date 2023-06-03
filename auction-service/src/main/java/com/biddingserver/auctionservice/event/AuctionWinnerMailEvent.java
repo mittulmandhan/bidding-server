@@ -12,5 +12,6 @@ import lombok.ToString;
 public class AuctionWinnerMailEvent {
 
     private Long auctionId;
+    private String winnerEmail;
 
 }

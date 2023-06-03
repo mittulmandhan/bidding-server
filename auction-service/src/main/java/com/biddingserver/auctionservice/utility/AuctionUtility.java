@@ -4,10 +4,15 @@ import com.biddingserver.auctionservice.config.RabbitMQConfig;
 import com.biddingserver.auctionservice.entity.Auction;
 import com.biddingserver.auctionservice.event.AuctionWinnerMailEvent;
 import com.biddingserver.auctionservice.repository.AuctionRepository;
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
+import java.util.List;
 
 @Component
 public class AuctionUtility {
@@ -19,29 +24,44 @@ public class AuctionUtility {
     private AuctionRepository auctionRepository;
 
     @Async
-    synchronized public void closeAuctionAfter(Long auctionId, Integer auctionDuration) {
+    @Scheduled(fixedRate = 20*1000)
+    public void closeAllExpiredAuctions() {
+        List<Auction> expiredAuctionsList = auctionRepository.findAllByStatus(AuctionStatus.RUNNING.toString());
 
-        try {
-            wait(auctionDuration*1000*60);
-        } catch (InterruptedException e) {
-            System.out.println("closeAuction() has has interrupted");
-        }
+        expiredAuctionsList.stream().forEach(a -> System.out.println(a));
 
-        Auction auction = auctionRepository.findById(auctionId).get();
+        expiredAuctionsList.stream().filter(auc -> isAuctionExpired(auc)).forEach(auction -> closeExpiredAuction(auction));
 
+    }
 
+    private boolean isAuctionExpired(Auction auction) {
+        Date currentTime = new Date();
+        Date auctionExpirationTime = DateUtils.addMinutes(new Date(auction.getCreateDate()), auction.getDuration());
 
+//        System.out.println("current time: " + currentTime);
+//        System.out.println("auction creation time: " + new Date(auction.getCreateDate()));
+//        System.out.println("auction expiration time: " + auctionExpirationTime);
+
+        return currentTime.after(auctionExpirationTime);
+    }
+
+    private void closeExpiredAuction(Auction auction) {
+        // marking auction status over
         auction.setStatus(AuctionStatus.OVER.toString());
-
-        auctionRepository.save(auction);
+        auction = auctionRepository.save(auction);
 
         AuctionWinnerMailEvent auctionWinnerMailEvent = new AuctionWinnerMailEvent();
-        auctionWinnerMailEvent.setAuctionId(auctionId);
+        auctionWinnerMailEvent.setAuctionId(auction.getId());
+        auctionWinnerMailEvent.setWinnerEmail(auction.getWinnerEmail());
 
         template.convertAndSend(RabbitMQConfig.EXCHANGE,
                 RabbitMQConfig.ROUTING_KEY,
                 auctionWinnerMailEvent);
-
     }
+
+//    private Auction markAuctionOver(Auction auction) {
+//        auction.setStatus(AuctionStatus.OVER.toString());
+//        return auctionRepository.save(auction);
+//    }
 
 }

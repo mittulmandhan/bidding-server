@@ -37,9 +37,11 @@ public class BidServiceImpl implements BidService {
             return new ResponseEntity<>("Auction Not Found", HttpStatus.NOT_FOUND);
 
         Bid bid = prepareBid(bidRequestDTO, auction, userEmail);
+        bid = bidRepository.save(bid);
 
         if(isBidAcceptable(auction, bid)) {
-            auction.setHighestBid(bid);
+            auction.setHighestBidId(bid.getId());
+            auction.setWinnerEmail(bid.getUser().getEmail());
             auctionRepository.save(auction);
             return new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED);
         }
@@ -69,12 +71,16 @@ public class BidServiceImpl implements BidService {
     private boolean isBidAcceptable(Auction auction, Bid bid) {
 
         // check if this is the first bid then must be greater or equal to base price
-        boolean result = auction.getHighestBid() == null && bid.getBidAmount() >=  auction.getBasePrice();
+        if(auction.getHighestBidId() == null)
+            return bid.getBidAmount() >=  auction.getBasePrice();
+
+        Bid HighestBid = bidRepository.findById(auction.getHighestBidId()).get();
+
+        if(HighestBid == null)
+            return bid.getBidAmount() >=  auction.getBasePrice();
 
         // or if there exists a bid already then incoming bid must be greater than or equal to the sum of existing highest bid and step rate
-        result = result || auction.getHighestBid() != null && bid.getBidAmount() >= (auction.getHighestBid().getBidAmount() + auction.getStepRate());
-
-        return result;
+        return bid.getBidAmount() >= (HighestBid.getBidAmount() + auction.getStepRate());
     }
 
     private Bid prepareBid(BidRequestDTO bidRequestDTO, Auction auction, String userEmail) {
@@ -84,8 +90,6 @@ public class BidServiceImpl implements BidService {
         bid.setBidAmount(bidRequestDTO.getBidAmount());
         bid.setAuction(auction);
         bid.setUser(user);
-
-        bid = bidRepository.save(bid);
 
         return bid;
     }
