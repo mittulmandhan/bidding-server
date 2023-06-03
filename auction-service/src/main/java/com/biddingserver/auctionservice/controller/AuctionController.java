@@ -3,8 +3,10 @@ package com.biddingserver.auctionservice.controller;
 import com.biddingserver.auctionservice.model.AuctionRequestDTO;
 import com.biddingserver.auctionservice.model.BidRequestDTO;
 import com.biddingserver.auctionservice.service.AuctionService;
+import com.biddingserver.auctionservice.service.BidService;
 import com.biddingserver.auctionservice.utility.AuctionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +15,9 @@ public class AuctionController {
 
     @Autowired
     private AuctionService auctionService;
+
+    @Autowired
+    private BidService bidService;
 
     @PostMapping("/")
     public Long startAuction(@RequestBody AuctionRequestDTO auctionRequestDTO) {
@@ -34,8 +39,8 @@ public class AuctionController {
     }
 
     @PostMapping("/{itemCode}/bid")
-    public String bidByItem(@RequestBody BidRequestDTO bid, @PathVariable Long itemCode) {
-        return itemCode + " " + bid.getBidAmount();
+    public ResponseEntity<String> bidByItem(@RequestBody BidRequestDTO bid, @PathVariable Long itemCode, @RequestHeader("user-email") String userEmail) {
+        return bidService.bidByItem(bid, itemCode, userEmail);
     }
 
     private boolean isStatusValid(String status) {

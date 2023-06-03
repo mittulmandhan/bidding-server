@@ -7,5 +7,5 @@ import lombok.*;
 @AllArgsConstructor
 public class BidRequestDTO
 {
-    Integer bidAmount;
+    Long bidAmount;
 }
