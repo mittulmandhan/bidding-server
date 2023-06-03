@@ -7,11 +7,11 @@ import org.springframework.context.ApplicationEvent;
 
 @Getter
 @Setter
-public class ContactNumberAddEvent extends ApplicationEvent {
+public class AddContactNumberEvent extends ApplicationEvent {
 
     User user;
 
-    public ContactNumberAddEvent(User user) {
+    public AddContactNumberEvent(User user) {
         super(user);
         this.user = user;
     }

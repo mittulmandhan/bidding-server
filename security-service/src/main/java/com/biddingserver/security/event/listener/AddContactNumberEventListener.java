@@ -2,7 +2,7 @@ package com.biddingserver.security.event.listener;
 
 import com.biddingserver.security.entity.OneTimePassword;
 import com.biddingserver.security.entity.User;
-import com.biddingserver.security.event.ContactNumberAddEvent;
+import com.biddingserver.security.event.AddContactNumberEvent;
 import com.biddingserver.security.service.OneTimePasswordService;
 import com.biddingserver.security.service.TwilioSMSService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 import java.util.Random;
 
 @Component
-public class ContactNumberAddEventListener implements ApplicationListener<ContactNumberAddEvent> {
+public class AddContactNumberEventListener implements ApplicationListener<AddContactNumberEvent> {
 
     @Autowired
     private OneTimePasswordService oneTimePasswordService;
@@ -23,7 +23,7 @@ public class ContactNumberAddEventListener implements ApplicationListener<Contac
 
 
     @Override
-    public void onApplicationEvent(ContactNumberAddEvent event) {
+    public void onApplicationEvent(AddContactNumberEvent event) {
         User user = event.getUser();
         String otp = generateOTP();
         OneTimePassword oneTimePassword = new OneTimePassword(user, otp);

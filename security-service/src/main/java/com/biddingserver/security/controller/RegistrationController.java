@@ -2,17 +2,15 @@ package com.biddingserver.security.controller;
 
 import com.biddingserver.security.entity.User;
 import com.biddingserver.security.entity.VerificationToken;
-import com.biddingserver.security.event.ContactNumberAddEvent;
-import com.biddingserver.security.event.RegistrationCompleteEvent;
 import com.biddingserver.security.model.*;
 import com.biddingserver.security.service.MailSenderService;
 import com.biddingserver.security.service.UserService;
 import com.biddingserver.security.serviceimpl.CustomAuthenticationProvider;
 import com.biddingserver.security.serviceimpl.CustomUserDetailsService;
+import com.biddingserver.security.utility.EventPublisherAsyncWrapper;
 import com.biddingserver.security.utility.JWTUtility;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,7 +39,7 @@ public class RegistrationController {
     private UserService userService;
 
     @Autowired
-    private ApplicationEventPublisher publisher;
+    private EventPublisherAsyncWrapper eventPublisherAsyncWrapper;
 
     @Autowired
     private MailSenderService mailSenderService;
@@ -55,10 +53,7 @@ public class RegistrationController {
     @PostMapping("/register")
     public String registerUser(@RequestBody UserModel userModel, final HttpServletRequest request) {
         User user = userService.registerUser(userModel);
-        publisher.publishEvent(new RegistrationCompleteEvent(
-                user,
-                applicationUrl(request)
-        ));
+        eventPublisherAsyncWrapper.publishRegistrationCompleteEvent(user, applicationUrl(request));
         return "Success";
     }
 
@@ -98,10 +93,7 @@ public class RegistrationController {
         VerificationToken verificationToken = userService.getVerificationToken(oldToken);
         User user = verificationToken.getUser();
         userService.deleteVerificationToken(verificationToken);
-        publisher.publishEvent(new RegistrationCompleteEvent(
-                user,
-                applicationUrl(request)
-        ));
+        eventPublisherAsyncWrapper.publishRegistrationCompleteEvent(user, applicationUrl(request));
         return "Verification link sent";
     }
 
@@ -150,7 +142,7 @@ public class RegistrationController {
     @PostMapping("/addContactNumber")
     public String addContactNumber(@RequestBody ContactNumberModel contactNumber) {
         User user = userService.addContactNumber(contactNumber);
-        publisher.publishEvent(new ContactNumberAddEvent(user));
+        eventPublisherAsyncWrapper.publishAddContactNumberEvent(user);
         return "Please check your phone for otp";
     }
 
