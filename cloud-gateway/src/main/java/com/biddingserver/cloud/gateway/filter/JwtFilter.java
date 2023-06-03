@@ -36,7 +36,7 @@ public class JwtFilter implements GatewayFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
-
+        ServerHttpRequest mutatedRequest = null;
         String authorization = getAuthHeader(request);
         String token = null;
         String userName = null;
@@ -63,8 +63,10 @@ public class JwtFilter implements GatewayFilter {
                 return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
 
             this.populateRequestWithHeaders(exchange, token);
+
+            mutatedRequest = request.mutate().header("user-email", jwtUtility.getUsernameFromToken(token)).build();
         }
-        return chain.filter(exchange);
+        return chain.filter(exchange.mutate().request(mutatedRequest).build());
     }
 
     private boolean isAuthFormatValid(String authorization) {
