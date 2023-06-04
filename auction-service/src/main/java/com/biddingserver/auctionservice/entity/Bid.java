@@ -23,4 +23,11 @@ public class Bid {
     @JoinColumn(name = "auction_id", nullable = false)
     private Auction auction;
 
+    @Override
+    public String toString() {
+        return "Bid{" +
+                "id=" + id +
+                ", bidAmount=" + bidAmount +
+                '}';
+    }
 }

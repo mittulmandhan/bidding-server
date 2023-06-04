@@ -42,7 +42,9 @@ public class BidServiceImpl implements BidService {
         if(isBidAcceptable(auction, bid)) {
             auction.setHighestBid(bid);
             auction.setWinnerEmail(bid.getUser().getEmail());
-            auctionRepository.save(auction);
+            auction.getBidList().add(bid);
+            auction = auctionRepository.save(auction);
+            auction.getBidList().stream().forEach(b ->System.out.println(b));
             return new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED);
         }
 //        else if(auction.getHighestBid() != null && bid.getBidAmount() >= (auction.getHighestBid().getBidAmount() + auction.getStepRate())) {
