@@ -29,51 +29,57 @@ public class BidServiceImpl implements BidService {
     @Autowired
     private UserRepository userRepository;
 
+    // allows user to place bid by item code
     @Override
     public ResponseEntity<String> bidByItem(BidRequestDTO bidRequestDTO, Long itemCode, String userEmail) {
+        // get the running auction on the item
         Auction auction = auctionRepository.findByItemCodeAndStatus(itemCode, AuctionStatus.RUNNING.toString());
 
+        // if there is no running auction for the given item
+        // or the auction is expired
         if(auction == null || isAuctionExpired(auction))
             return new ResponseEntity<>("Auction Not Found", HttpStatus.NOT_FOUND);
 
+        // prepare Bid
         Bid bid = prepareBid(bidRequestDTO, auction, userEmail);
+
+        // save Bid
         bid = bidRepository.save(bid);
 
+        // if the bid been placed is acceptable
+        // then save it in the corresponding auction
         if(isBidAcceptable(auction, bid)) {
+
+            // save bid as highest
             auction.setHighestBid(bid);
+            // save highest bidder's email
             auction.setWinnerEmail(bid.getUser().getEmail());
+
+            // save the bid in the list of all the accepted bids placed against this auction
             auction.getBidList().add(bid);
+            // save auction
             auction = auctionRepository.save(auction);
-            auction.getBidList().stream().forEach(b ->System.out.println(b));
+
             return new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED);
         }
-//        else if(auction.getHighestBid() != null && bid.getBidAmount() >= (auction.getHighestBid().getBidAmount() + auction.getStepRate())) {
-//            auction.setHighestBid(bid);
-//            auctionRepository.save(auction);
-//            return new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED);
-//        }
-
-
 
         return new ResponseEntity<>("Bid is Rejected", HttpStatus.NOT_ACCEPTABLE);
     }
 
+    // checks if the auction is expired
     private boolean isAuctionExpired(Auction auction) {
         Date currentTime = new Date();
         Date auctionExpirationTime = DateUtils.addMinutes(new Date(auction.getCreateDate()), 10);
-
-//        System.out.println("current time: " + currentTime);
-//        System.out.println("auction creation time: " + new Date(auction.getCreateDate()));
-//        System.out.println("auction expiration time: " + auctionExpirationTime);
-
         return currentTime.after(auctionExpirationTime);
     }
 
-    // Checks if the bid must be accepted or not
+    // Checks if the bid is acceptable or not
     private boolean isBidAcceptable(Auction auction, Bid bid) {
 
         Bid HighestBid = auction.getHighestBid();
 
+        // if there is no bid placed against this auction
+        // then the bid is acceptable if it is greater than or equal to base price
         if(HighestBid == null)
             return bid.getBidAmount() >=  auction.getBasePrice();
 
@@ -81,6 +87,7 @@ public class BidServiceImpl implements BidService {
         return bid.getBidAmount() >= (HighestBid.getBidAmount() + auction.getStepRate());
     }
 
+    // prepare Bid from given parameters
     private Bid prepareBid(BidRequestDTO bidRequestDTO, Auction auction, String userEmail) {
         Bid bid = new Bid();
         User user = userRepository.findByEmail(userEmail);

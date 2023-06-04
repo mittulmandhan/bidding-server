@@ -8,6 +8,8 @@ import java.util.Arrays;
 
 @Component
 public class CustomAsyncUncaughtExceptionHandler implements AsyncUncaughtExceptionHandler {
+
+    // This method will handle all the exceptions thrown by asynchronous methods
     @Override
     public void handleUncaughtException(Throwable ex, Method method, Object... params) {
         System.out.println("Method Name: " + method.getName()

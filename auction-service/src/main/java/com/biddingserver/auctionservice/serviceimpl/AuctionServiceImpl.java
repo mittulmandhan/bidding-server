@@ -30,30 +30,39 @@ public class AuctionServiceImpl implements AuctionService {
         if(itemHasRunningAuctionAlready(auctionRequestDTO.getItemCode()))
             return null;
 
-        Auction auction = getAuctionFromAuctionRequestDTO(auctionRequestDTO);
+        // convert AuctionRequestDTO to Auction
+        Auction auction = prepareAuctionFromAuctionRequestDTO(auctionRequestDTO);
 
+        // save auction
         auction = auctionRepository.save(auction);
 
+        // return id if all goes well
         return auction.getId();
     }
 
+    // checks if the item already has a running auction
     private boolean itemHasRunningAuctionAlready(Long itemCode) {
         return auctionRepository.findByItemCodeAndStatus(itemCode, AuctionStatus.RUNNING.toString()) != null;
     }
 
+    // gets list of auctions by status
     @Override
     public List<AuctionResponseDto> getAuctionsByStatus(String status) {
         List<Auction> auctionList = auctionRepository.findAllByStatus(status);
 
+        // map all Auction objects to AuctionResponseDto
         return auctionList.stream().map(this::prepareAuctionResponseDtoFromAuction).collect(Collectors.toList());
     }
 
+    // map Auction objects to AuctionResponseDto
     private AuctionResponseDto prepareAuctionResponseDtoFromAuction(Auction auction) {
         AuctionResponseDto auctionResponseDto = new AuctionResponseDto();
         Bid bid = auction.getHighestBid();
 
+        // if there's a bid placed against this auction
         if(bid != null)
             auctionResponseDto.setHighestBidAmount(bid.getBidAmount());
+        // if there's no bid placed against this auction
         else
             auctionResponseDto.setHighestBidAmount(null);
 
@@ -63,13 +72,15 @@ public class AuctionServiceImpl implements AuctionService {
         return auctionResponseDto;
     }
 
-    private Auction getAuctionFromAuctionRequestDTO(AuctionRequestDTO auctionRequestDTO) {
+    // Map AuctionRequestDTO to Auction
+    private Auction prepareAuctionFromAuctionRequestDTO(AuctionRequestDTO auctionRequestDTO) {
         Auction auction = new Auction();
 
         auction.setItemCode(auctionRequestDTO.getItemCode());
         auction.setBasePrice(auctionRequestDTO.getBasePrice());
         auction.setStepRate(auctionRequestDTO.getStepRate());
         auction.setDuration(auctionRequestDTO.getDuration());
+        // initially the auction will be in running state
         auction.setStatus(AuctionStatus.RUNNING.toString());
 
         return auction;

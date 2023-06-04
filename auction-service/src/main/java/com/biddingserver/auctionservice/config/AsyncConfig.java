@@ -14,6 +14,7 @@ public class AsyncConfig extends AsyncConfigurerSupport {
     @Autowired
     private AsyncUncaughtExceptionHandler asyncUncaughtExceptionHandler;
 
+    // Thread pool task executor configuration
     @Override
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
@@ -26,6 +27,7 @@ public class AsyncConfig extends AsyncConfigurerSupport {
         return taskExecutor;
     }
 
+    // configuring Async Uncaught Exception Handler
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
         return asyncUncaughtExceptionHandler;

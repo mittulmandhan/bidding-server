@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuctionWinnerMailEventListener {
+public class AuctionEventListener {
 
     @Autowired
     private MailSenderService mailSenderService;

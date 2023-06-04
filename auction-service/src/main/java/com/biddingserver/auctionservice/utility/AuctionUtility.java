@@ -23,28 +23,28 @@ public class AuctionUtility {
     @Autowired
     private AuctionRepository auctionRepository;
 
+    // Asynchronous method to stop all expired auctions
+    // and send email to the winner
     @Async
     @Scheduled(fixedRate = 20*1000)
     public void closeAllExpiredAuctions() {
+        // gets all the running auctions
         List<Auction> expiredAuctionsList = auctionRepository.findAllByStatus(AuctionStatus.RUNNING.toString());
 
-        expiredAuctionsList.stream().forEach(a -> System.out.println(a));
-
+        // filters out all the expired auctions and closes them
         expiredAuctionsList.stream().filter(auc -> isAuctionExpired(auc)).forEach(auction -> closeExpiredAuction(auction));
 
     }
 
+    // checks if an auction is expired
     private boolean isAuctionExpired(Auction auction) {
         Date currentTime = new Date();
         Date auctionExpirationTime = DateUtils.addMinutes(new Date(auction.getCreateDate()), auction.getDuration());
-
-//        System.out.println("current time: " + currentTime);
-//        System.out.println("auction creation time: " + new Date(auction.getCreateDate()));
-//        System.out.println("auction expiration time: " + auctionExpirationTime);
-
         return currentTime.after(auctionExpirationTime);
     }
 
+    // changes status of auction from running to over
+    // and sends adds necessary details in the messaging queue to initiate email
     private void closeExpiredAuction(Auction auction) {
         // marking auction status over
         auction.setStatus(AuctionStatus.OVER.toString());
@@ -53,18 +53,15 @@ public class AuctionUtility {
         if(auction.getWinnerEmail() == null)
             return;
 
+        // prepare message to add in the queue
         AuctionWinnerMailEvent auctionWinnerMailEvent = new AuctionWinnerMailEvent();
         auctionWinnerMailEvent.setItemCode(auction.getItemCode());
         auctionWinnerMailEvent.setWinnerEmail(auction.getWinnerEmail());
 
+        // add message in the queue
         template.convertAndSend(RabbitMQConfig.EXCHANGE,
                 RabbitMQConfig.ROUTING_KEY,
                 auctionWinnerMailEvent);
     }
-
-//    private Auction markAuctionOver(Auction auction) {
-//        auction.setStatus(AuctionStatus.OVER.toString());
-//        return auctionRepository.save(auction);
-//    }
 
 }
