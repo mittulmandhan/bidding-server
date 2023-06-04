@@ -9,7 +9,6 @@ import com.biddingserver.auctionservice.repository.BidRepository;
 import com.biddingserver.auctionservice.repository.UserRepository;
 import com.biddingserver.auctionservice.service.BidService;
 import com.biddingserver.auctionservice.utility.AuctionStatus;
-import com.biddingserver.auctionservice.utility.AuctionUtility;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,9 +29,6 @@ public class BidServiceImpl implements BidService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private AuctionUtility auctionUtility;
-
     @Override
     public ResponseEntity<String> bidByItem(BidRequestDTO bidRequestDTO, Long itemCode, String userEmail) {
         Auction auction = auctionRepository.findByItemCodeAndStatus(itemCode, AuctionStatus.RUNNING.toString());
@@ -47,7 +43,6 @@ public class BidServiceImpl implements BidService {
             auction.setHighestBid(bid);
             auction.setWinnerEmail(bid.getUser().getEmail());
             auctionRepository.save(auction);
-            auctionUtility.notifyUsersAboutHighestBid(auction);
             return new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED);
         }
 //        else if(auction.getHighestBid() != null && bid.getBidAmount() >= (auction.getHighestBid().getBidAmount() + auction.getStepRate())) {
