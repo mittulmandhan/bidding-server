@@ -40,7 +40,7 @@ public class BidServiceImpl implements BidService {
         bid = bidRepository.save(bid);
 
         if(isBidAcceptable(auction, bid)) {
-            auction.setHighestBidId(bid.getId());
+            auction.setHighestBid(bid);
             auction.setWinnerEmail(bid.getUser().getEmail());
             auctionRepository.save(auction);
             return new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED);
@@ -70,11 +70,7 @@ public class BidServiceImpl implements BidService {
     // Checks if the bid must be accepted or not
     private boolean isBidAcceptable(Auction auction, Bid bid) {
 
-        // check if this is the first bid then must be greater or equal to base price
-        if(auction.getHighestBidId() == null)
-            return bid.getBidAmount() >=  auction.getBasePrice();
-
-        Bid HighestBid = bidRepository.findById(auction.getHighestBidId()).get();
+        Bid HighestBid = auction.getHighestBid();
 
         if(HighestBid == null)
             return bid.getBidAmount() >=  auction.getBasePrice();

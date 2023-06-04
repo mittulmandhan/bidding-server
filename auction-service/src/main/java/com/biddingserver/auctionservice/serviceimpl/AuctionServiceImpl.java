@@ -50,10 +50,7 @@ public class AuctionServiceImpl implements AuctionService {
 
     private AuctionResponseDto prepareAuctionResponseDtoFromAuction(Auction auction) {
         AuctionResponseDto auctionResponseDto = new AuctionResponseDto();
-        Bid bid = null;
-
-        if(auction.getHighestBidId() != null)
-            bid = bidRepository.findById(auction.getHighestBidId()).get();
+        Bid bid = auction.getHighestBid();
 
         if(bid != null)
             auctionResponseDto.setHighestBidAmount(bid.getBidAmount());

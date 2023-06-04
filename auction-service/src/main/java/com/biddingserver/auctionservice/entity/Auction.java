@@ -1,15 +1,18 @@
 package com.biddingserver.auctionservice.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.List;
 
-@Data
 @Entity
-@ToString
+@Setter
+@Getter
 @EntityListeners(AuditingEntityListener.class)
 public class Auction {
 
@@ -28,10 +31,14 @@ public class Auction {
 
     private String status;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "auction")
+    List<Bid> bidList;
+
     @CreatedDate
     private Long createDate;
 
-    private Long highestBidId;
+    @OneToOne
+    private Bid highestBid;
 
     private String winnerEmail;
 }
