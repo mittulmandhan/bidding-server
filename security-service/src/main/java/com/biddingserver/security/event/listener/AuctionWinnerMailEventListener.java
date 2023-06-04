@@ -13,7 +13,7 @@ public class AuctionWinnerMailEventListener {
     @Autowired
     private MailSenderService mailSenderService;
 
-    @RabbitListener(queues = RabbitMQConfig.QUEUE)
+    @RabbitListener(queues = RabbitMQConfig.WINNER_QUEUE)
     public void listener(AuctionWinnerMailEvent auctionWinnerMailEvent) {
         System.out.println(auctionWinnerMailEvent);
         mailSenderService.send(auctionWinnerMailEvent.getWinnerEmail(), "Congratulations! You Won the Auction", "Hi \n Congratulations! You are the winner of the auction for item: " + auctionWinnerMailEvent.getItemCode());

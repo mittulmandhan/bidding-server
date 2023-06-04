@@ -8,16 +8,27 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String QUEUE = "message_queue";
-    public static final String EXCHANGE = "message_exchange";
-    public static final String ROUTING_KEY = "message_routingKey";
+    public static final String EXCHANGE = "auction_message_exchange";
+    public static final String WINNER_QUEUE = "winner_queue";
+    public static final String WINNER_ROUTING_KEY = "winner_routingKey";
+
+    public static final String NOTIFY_QUEUE = "notify_queue";
+    public static final String NOTIFY_ROUTING_KEY = "notify_routingKey";
 
     @Bean
-    public Queue queue() {
-        return new Queue(QUEUE);
+    public Queue winnerQueue() {
+        return new Queue(WINNER_QUEUE);
+    }
+
+    @Bean
+    public Queue notifyQueue() {
+        return new Queue(NOTIFY_QUEUE);
     }
 
     @Bean
@@ -26,11 +37,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder
-                .bind(queue)
-                .to(exchange)
-                .with(ROUTING_KEY);
+    public List<Binding> bindings() {
+        return Arrays.asList(
+                BindingBuilder.bind(winnerQueue()).to(exchange()).with(WINNER_ROUTING_KEY),
+                BindingBuilder.bind(notifyQueue()).to(exchange()).with(NOTIFY_ROUTING_KEY)
+        );
     }
 
     @Bean
