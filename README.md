@@ -47,7 +47,7 @@ The server allows following capabilities to their web-based auction clients:
 yet to be added
 
 ## Architecture
-yet to be added
+
 
 ## REST APIs
 ### POST /auction/
