@@ -50,7 +50,32 @@ yet to be added
 yet to be added
 
 ## REST APIs
-yet to be added
+### POST /auction/
+__URL__: http://localhost:9002/auction/ <br /><br />
+__Request Parameters__ <br />
+Request Body: itemCode, basePrice, stepRate, duration <br /><br />
+__Response__ <br />
+Response Body: auctionId <br />
+
+
+### GET /auction/?status=RUNNING
+__URL__: http://localhost:9191/auction/?status={RUNNING/OVER} <br /><br />
+__Request Parameters__ <br />
+Query Parameters: status(running/over) <br /><br />
+__Response__ <br />
+Response Body: list of auctions <br />
+
+### POST /auction/{itemCode}/bid
+__URL__: http://localhost:9191/auction/{itemCode}/bid <br /><br />
+__Request Parameters__ <br />
+Path Variable: itemCode <br />
+Request Body: bidAmount <br /><br />
+__Response__ <br />
+Response Status: <br />
+201 - Bid is accepted <br />
+404 - Auction not found <br />
+406 - Bid is rejected <br />
+
 
 ## ER Diagram
 yet to be added
