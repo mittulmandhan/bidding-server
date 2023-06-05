@@ -5,7 +5,6 @@
 Bidding Server is a custom, high performance, auction server for this online car auction company's web based auctions.
 Biding Server manages all the aspect of the whole auction process, from creating an auction to announcing a winner.
 
-#### Capabilities
 The server allows following capabilities to their web-based auction clients:
 
 - [x] Only admin must be able to create auction <br />
@@ -44,3 +43,17 @@ The server allows following capabilities to their web-based auction clients:
 * RabbitMQ
 * Graddle
 
+## Setup Guide
+yet to be added
+
+## Architecture
+yet to be added
+
+## REST APIs
+yet to be added
+
+## ER Diagram
+yet to be added
+
+## Problems Resolutions
+yet to be added
