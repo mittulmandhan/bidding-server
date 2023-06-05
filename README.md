@@ -47,7 +47,7 @@ The server allows following capabilities to their web-based auction clients:
 yet to be added
 
 ## Architecture
-
+![alt text](https://github.com/mittulmandhan/bidding-server/blob/main/Diagrams/modular_diagram.jpeg?raw=true)
 
 ## REST APIs
 ### POST /auction/
