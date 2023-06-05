@@ -5,6 +5,7 @@
 Bidding Server is a custom, high performance, auction server for this online car auction company's web based auctions.
 Biding Server manages all the aspect of the whole auction process, from creating an auction to announcing a winner.
 
+#### Capabilities
 The server allows following capabilities to their web-based auction clients:
 
 - [x] Only admin must be able to create auction <br />
@@ -27,3 +28,19 @@ The server allows following capabilities to their web-based auction clients:
     - [x] If item does not have running auction<br />
 - [x] As soon as the auction is over winner receives email<br />
 - [x] Auction automatically gets over once duration completes<br />
+
+#### Teck Stack
+* Java
+* Spring Boot
+    * Web
+    * Lombok
+    * Netflix eureka
+    * Data JPA
+    * Config server
+    * AMQP
+    * MySQL Connector
+* Tomcat
+* MySQL
+* RabbitMQ
+* Graddle
+
