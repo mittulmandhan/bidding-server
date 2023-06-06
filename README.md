@@ -82,7 +82,7 @@ Response Status: <br />
 
 
 ## ER Diagram
-yet to be added
+![alt text](https://github.com/mittulmandhan/bidding-server/blob/main/Diagrams/ERD.jpg?raw=true)
 
 ## Problems Resolutions
 yet to be added
