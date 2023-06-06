@@ -47,7 +47,11 @@ The server allows following capabilities to their web-based auction clients:
 yet to be added
 
 ## Architecture
+#### Microservices
 ![alt text](https://github.com/mittulmandhan/bidding-server/blob/main/Diagrams/modular_diagram.jpeg?raw=true)
+
+#### Workflow
+![alt text](https://github.com/mittulmandhan/bidding-server/blob/main/Diagrams/Workflow.jpg?raw=true)
 
 ## REST APIs
 ### POST /auction/
