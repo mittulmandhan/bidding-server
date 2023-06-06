@@ -20,9 +20,6 @@ public class AuctionServiceImpl implements AuctionService {
     @Autowired
     private AuctionRepository auctionRepository;
 
-    @Autowired
-    private BidRepository bidRepository;
-
     @Override
     public Long createAuction(AuctionRequestDTO auctionRequestDTO) {
 
