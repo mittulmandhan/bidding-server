@@ -101,4 +101,7 @@ Using lambda delayed execution and RabbitMQ together so that when auction ends l
 4. Async + RabbitMQ
 Executing asynchronous threads that will wait till auction duration ends and then close the auction and send message to RabbitMQ to send winner email.
 
-5. Spring Scheduler + RabbitMQ
+_5. Spring Scheduler + RabbitMQ_
+Scheduling a job every 20 sec to close all the running auctions that are expired and send message to rabbitmq to send winner email. In this approach, situation might occur where auction duration has ended but still the status is Running so to cop up with we can add an additional condition in bidding service to check if the auction has expired or not if it is expired no bid can be placed against this auction.
+
+
