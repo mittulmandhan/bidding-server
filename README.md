@@ -88,8 +88,8 @@ Response Status: <br />
 #### Auction Closing
 __Problem:__ Close auction as soon as duration ends and send email to winner
 
-##### Possible Solutions
-1. _MongoDB + Kafka_
+__Possible Solutions__
+##### 1. _MongoDB + Kafka_
 <br />Using Mongo db and kafka together and set ttl to so that when auction duration ends it will be deleted from database and send message to kafka to send email message to email service
 
 2. _RabbitMQ_
