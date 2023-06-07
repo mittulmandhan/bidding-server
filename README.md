@@ -92,16 +92,16 @@ __Possible Solutions__
 ##### 1. _MongoDB + Kafka_
 Using Mongo db and kafka together and set ttl to so that when auction duration ends it will be deleted from database and send message to kafka to send email message to email service
 
-2. _RabbitMQ_
-<br />Passing messages to RabbitMQ with delayed execution parameter so that it initiates when auction is over
+##### 2. _RabbitMQ_
+Passing messages to RabbitMQ with delayed execution parameter so that it initiates when auction is over
 
-3. _AWS Lambda + RabbitMQ_
-<br />Using lambda delayed execution and RabbitMQ together so that when auction ends lambda will start its operation make necessary changes in the database and send message to RabbitMQ to send winner email.
+##### 3. _AWS Lambda + RabbitMQ_
+Using lambda delayed execution and RabbitMQ together so that when auction ends lambda will start its operation make necessary changes in the database and send message to RabbitMQ to send winner email.
 
-4. _Async + RabbitMQ_
-<br />Executing asynchronous threads that will wait till auction duration ends and then close the auction and send message to RabbitMQ to send winner email.
+##### 4. _Async + RabbitMQ_
+Executing asynchronous threads that will wait till auction duration ends and then close the auction and send message to RabbitMQ to send winner email.
 
-5. _Spring Scheduler + RabbitMQ_
-<br />Scheduling a job every 20 sec to close all the running auctions that are expired and send message to rabbitmq to send winner email. In this approach, situation might occur where auction duration has ended but still the status is Running so to cop up with we can add an additional condition in bidding service to check if the auction has expired or not if it is expired no bid can be placed against this auction.
+##### 5. _Spring Scheduler + RabbitMQ_
+Scheduling a job every 20 sec to close all the running auctions that are expired and send message to rabbitmq to send winner email. In this approach, situation might occur where auction duration has ended but still the status is Running so to cop up with we can add an additional condition in bidding service to check if the auction has expired or not if it is expired no bid can be placed against this auction.
 
 
