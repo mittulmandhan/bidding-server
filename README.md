@@ -85,4 +85,20 @@ Response Status: <br />
 ![alt text](https://github.com/mittulmandhan/bidding-server/blob/main/Diagrams/ERD.jpg?raw=true)
 
 ## Problems Resolutions
-yet to be added
+#### Auction Closing
+__Problem:__ Close auction as soon as duration ends and send email to winner
+
+__Possible Solutions__
+1. MongoDB + Kafka
+Using Mongo db and kafka together and set ttl to so that when auction duration ends it will be deleted from database and send message to kafka to send email message to email service
+
+2. RabbitMQ
+Passing messages to RabbitMQ with delayed execution parameter so that it initiates when auction is over
+
+3. AWS Lambda + RabbitMQ
+Using lambda delayed execution and RabbitMQ together so that when auction ends lambda will start its operation make necessary changes in the database and send message to RabbitMQ to send winner email.
+
+4. Async + RabbitMQ
+Executing asynchronous threads that will wait till auction duration ends and then close the auction and send message to RabbitMQ to send winner email.
+
+5. Spring Scheduler + RabbitMQ
