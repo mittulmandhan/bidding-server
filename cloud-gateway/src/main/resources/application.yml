@@ -5,7 +5,7 @@ spring:
   application:
     name: API-GATEWAY
   data-source:
-    url: jdbc:mysql://host.docker.internal:3306/user_registration
+    url: jdbc:mysql://host.docker.internal:3306/auction_db
     username: root
     password: root@123
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -26,15 +26,6 @@ spring:
               args:
                 name: AUCTION-SERVICE
                 fallbackuri: forward:/auctionServiceFallBack
-        - id: DEPARTMENT-SERVICE
-          uri: lb://DEPARTMENT-SERVICE
-          predicates:
-            - Path=/departments/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: DEPARTMENT-SERVICE
-                fallbackuri: forward:/departmentServiceFallBack
         - id: SECURITY-SERVICE
           uri: lb://SECURITY-SERVICE
           predicates:
