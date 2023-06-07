@@ -85,7 +85,7 @@ Response Status: <br />
 ![alt text](https://github.com/mittulmandhan/bidding-server/blob/main/Diagrams/ERD.jpg?raw=true)
 
 ## Problems Resolutions
-#### Auction Closing
+#### ⭐ Auction Closing
 __Problem:__ Close auction as soon as duration ends and send email to winner
 
 __Possible Solutions__
