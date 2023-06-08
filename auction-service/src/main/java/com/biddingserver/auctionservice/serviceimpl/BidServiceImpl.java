@@ -33,7 +33,7 @@ public class BidServiceImpl implements BidService {
     @Override
     public ResponseEntity<String> bidByItem(BidRequestDTO bidRequestDTO, Long itemCode, String userEmail) {
         // get the running auction on the item
-        Auction auction = auctionRepository.findByItemCodeAndStatus(itemCode, AuctionStatus.RUNNING.toString());
+        Auction auction = auctionRepository.findByItemCodeAndStatus(itemCode, AuctionStatus.RUNNING.toString()).get();
 
         // if there is no running auction for the given item
         // or the auction is expired

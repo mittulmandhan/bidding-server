@@ -39,7 +39,7 @@ public class AuctionServiceImpl implements AuctionService {
 
     // checks if the item already has a running auction
     private boolean itemHasRunningAuctionAlready(Long itemCode) {
-        return auctionRepository.findByItemCodeAndStatus(itemCode, AuctionStatus.RUNNING.toString()) != null;
+        return auctionRepository.findByItemCodeAndStatus(itemCode, AuctionStatus.RUNNING.toString()).isPresent();
     }
 
     // gets list of auctions by status
