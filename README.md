@@ -86,7 +86,7 @@ Response Status: <br />
 
 ## Problems Resolutions
 #### ⭐ Auction Closing
-__Problem:__ Close auction as soon as duration ends and send email to winner
+__Problem:__ Close auction as soon as duration ends and send email to winner using a messaging queue since only the security service has the capability to send email to users
 
 __Possible Solutions__
 ##### 1. MongoDB + Kafka
