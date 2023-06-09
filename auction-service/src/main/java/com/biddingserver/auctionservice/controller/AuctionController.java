@@ -7,6 +7,8 @@ import com.biddingserver.auctionservice.service.AuctionService;
 import com.biddingserver.auctionservice.service.BidService;
 import com.biddingserver.auctionservice.utility.AuctionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,13 +33,15 @@ public class AuctionController {
 
     // To get the list auctions by their status
     @GetMapping("/")
-    public List<AuctionResponseDto> getAuctionsByStatus(@RequestParam String status) {
+    public List<AuctionResponseDto> getAuctionsByStatus(@RequestParam String status, @RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
         // if user pass invalid status then return null
         if(!isStatusValid(status)) {
             return null;
         }
 
-        return auctionService.getAuctionsByStatus(status.toUpperCase());
+        Pageable paged = PageRequest.of(pageNumber, pageSize);
+
+        return auctionService.getAuctionsByStatus(status.toUpperCase(), paged);
     }
 
     // To make user bid in an auction using item code

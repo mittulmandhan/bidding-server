@@ -5,10 +5,10 @@ import com.biddingserver.auctionservice.entity.Bid;
 import com.biddingserver.auctionservice.model.AuctionRequestDTO;
 import com.biddingserver.auctionservice.model.AuctionResponseDto;
 import com.biddingserver.auctionservice.repository.AuctionRepository;
-import com.biddingserver.auctionservice.repository.BidRepository;
 import com.biddingserver.auctionservice.service.AuctionService;
 import com.biddingserver.auctionservice.utility.AuctionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,8 +44,8 @@ public class AuctionServiceImpl implements AuctionService {
 
     // gets list of auctions by status
     @Override
-    public List<AuctionResponseDto> getAuctionsByStatus(String status) {
-        List<Auction> auctionList = auctionRepository.findAllByStatus(status);
+    public List<AuctionResponseDto> getAuctionsByStatus(String status, Pageable paged) {
+        List<Auction> auctionList = auctionRepository.findAllByStatus(status, paged);
 
         // map all Auction objects to AuctionResponseDto
         return auctionList.stream().map(this::prepareAuctionResponseDtoFromAuction).collect(Collectors.toList());
