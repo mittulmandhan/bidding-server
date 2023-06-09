@@ -31,9 +31,6 @@ public class Auction {
 
     private String status;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "auction")
-    List<Bid> bidList;
-
     @CreatedDate
     private Long createDate;
 

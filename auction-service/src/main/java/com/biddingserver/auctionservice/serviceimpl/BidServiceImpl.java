@@ -61,9 +61,6 @@ public class BidServiceImpl implements BidService {
             auction.setHighestBid(bid);
             // save highest bidder's email
             auction.setWinnerEmail(bid.getUser().getEmail());
-
-            // save the bid in the list of all the accepted bids placed against this auction
-            auction.getBidList().add(bid);
             // save auction
             auction = auctionRepository.save(auction);
 

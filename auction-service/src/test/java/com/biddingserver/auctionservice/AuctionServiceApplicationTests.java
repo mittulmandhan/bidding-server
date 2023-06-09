@@ -119,7 +119,6 @@ class AuctionServiceApplicationTests {
 		auction.setStatus(AuctionStatus.RUNNING.toString());
 		auction.setItemCode(10L);
 		auction.setBasePrice(1000L);
-		auction.setBidList(new ArrayList<>());
 		auction.setHighestBid(null);
 		auction.setWinnerEmail("");
 		auction.setCreateDate(new Date().getTime());
@@ -140,8 +139,6 @@ class AuctionServiceApplicationTests {
 		responseAuction.setStatus(AuctionStatus.RUNNING.toString());
 		responseAuction.setItemCode(10L);
 		responseAuction.setBasePrice(1000L);
-		responseAuction.setBidList(new ArrayList<>());
-		responseAuction.getBidList().add(responseBid);
 		responseAuction.setHighestBid(null);
 		responseAuction.setWinnerEmail("");
 		responseAuction.setCreateDate(new Date().getTime());
@@ -149,7 +146,6 @@ class AuctionServiceApplicationTests {
 		when(auctionRepository.findByItemCodeAndStatus(auction.getItemCode(), AuctionStatus.RUNNING.toString())).thenReturn(Optional.of(auction));
 		when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
 		when(bidRepository.save(bid)).thenReturn(responseBid);
-		auction.getBidList().add(responseBid);
 		when(auctionRepository.save(auction)).thenReturn(responseAuction);
 
 		assertEquals(new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED), bidService.bidByItem(new BidRequestDTO(bid.getBidAmount()), auction.getItemCode(), user.getEmail()));
@@ -171,7 +167,6 @@ class AuctionServiceApplicationTests {
 		auction.setStatus(AuctionStatus.RUNNING.toString());
 		auction.setItemCode(10L);
 		auction.setBasePrice(1000L);
-		auction.setBidList(new ArrayList<>());
 		auction.setHighestBid(null);
 		auction.setWinnerEmail("");
 		auction.setCreateDate(DateUtils.addMinutes(new Date(), -11).getTime());
