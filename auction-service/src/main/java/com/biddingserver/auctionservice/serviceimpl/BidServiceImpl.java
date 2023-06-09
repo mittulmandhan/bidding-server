@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class BidServiceImpl implements BidService {
     private UserRepository userRepository;
 
     // allows user to place bid by item code
+    @Transactional
     @Override
     public ResponseEntity<String> bidByItem(BidRequestDTO bidRequestDTO, Long itemCode, String userEmail) {
 
