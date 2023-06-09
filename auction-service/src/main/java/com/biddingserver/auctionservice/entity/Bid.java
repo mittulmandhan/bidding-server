@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@Table(indexes = @Index(name = "bid_auction_index", columnList = "auction_id"))
 public class Bid {
 
     @Id
