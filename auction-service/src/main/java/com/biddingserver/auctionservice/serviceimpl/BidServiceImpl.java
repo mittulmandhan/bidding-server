@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class BidServiceImpl implements BidService {
@@ -32,12 +33,18 @@ public class BidServiceImpl implements BidService {
     // allows user to place bid by item code
     @Override
     public ResponseEntity<String> bidByItem(BidRequestDTO bidRequestDTO, Long itemCode, String userEmail) {
+
+        Optional<Auction> runningAuction = auctionRepository.findByItemCodeAndStatus(itemCode, AuctionStatus.RUNNING.toString());
+
+        if(runningAuction.isEmpty())
+            return new ResponseEntity<>("Auction Not Found", HttpStatus.NOT_FOUND);
+
         // get the running auction on the item
-        Auction auction = auctionRepository.findByItemCodeAndStatus(itemCode, AuctionStatus.RUNNING.toString()).get();
+        Auction auction = runningAuction.get();
 
         // if there is no running auction for the given item
         // or the auction is expired
-        if(auction == null || isAuctionExpired(auction))
+        if(isAuctionExpired(auction))
             return new ResponseEntity<>("Auction Not Found", HttpStatus.NOT_FOUND);
 
         // prepare Bid
