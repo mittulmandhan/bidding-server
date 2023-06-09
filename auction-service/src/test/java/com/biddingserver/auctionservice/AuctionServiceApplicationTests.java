@@ -21,7 +21,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
@@ -103,7 +102,7 @@ class AuctionServiceApplicationTests {
 		when(auctionRepository.save(auctionForRepository)).thenReturn(responseAuction);
 		when(auctionRepository.findByItemCodeAndStatus(auctionRequestDTO.getItemCode(), AuctionStatus.RUNNING.toString())).thenReturn(Optional.of(responseAuction));
 
-		assertEquals(null, auctionService.createAuction(auctionRequestDTO));
+		assertNull(auctionService.createAuction(auctionRequestDTO));
 	}
 
 	@Test
