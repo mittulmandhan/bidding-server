@@ -32,7 +32,7 @@ public class AuctionUtility {
         List<Auction> expiredAuctionsList = auctionRepository.findAllByStatus(AuctionStatus.RUNNING.toString());
 
         // filters out all the expired auctions and closes them
-        expiredAuctionsList.stream().filter(auc -> isAuctionExpired(auc)).forEach(auction -> closeExpiredAuction(auction));
+        expiredAuctionsList.stream().filter(auc -> isAuctionExpired(auc)).forEach(this::closeExpiredAuction);
 
     }
 
