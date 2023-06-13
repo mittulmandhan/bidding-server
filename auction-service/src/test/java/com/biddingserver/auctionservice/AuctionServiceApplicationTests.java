@@ -113,23 +113,32 @@ class AuctionServiceApplicationTests {
 		user.setLastName("Mandhan");
 		user.setEmail("conanmittul@gmail.com");
 
+		Bid highestBid = new Bid();
+		highestBid.setId(99L);
+		highestBid.setBidAmount(1000L);
+		highestBid.setUser(user);
+
+
 		Auction auction = new Auction();
 		auction.setId(1L);
 		auction.setStatus(AuctionStatus.RUNNING.toString());
 		auction.setItemCode(10L);
 		auction.setBasePrice(1000L);
-		auction.setHighestBid(null);
+		auction.setStepRate(250L);
 		auction.setWinnerEmail("");
 		auction.setCreateDate(new Date().getTime());
 
+		highestBid.setAuction(auction);
+		auction.setHighestBid(highestBid);
+
 		Bid bid = new Bid();
-		bid.setBidAmount(1200L);
+		bid.setBidAmount(1250L);
 		bid.setUser(user);
 		bid.setAuction(auction);
 
 		Bid responseBid = new Bid();
 		responseBid.setId(100L);
-		responseBid.setBidAmount(1200L);
+		responseBid.setBidAmount(1250L);
 		responseBid.setUser(user);
 		responseBid.setAuction(auction);
 
@@ -138,14 +147,52 @@ class AuctionServiceApplicationTests {
 		responseAuction.setStatus(AuctionStatus.RUNNING.toString());
 		responseAuction.setItemCode(10L);
 		responseAuction.setBasePrice(1000L);
-		responseAuction.setHighestBid(null);
+		responseAuction.setStepRate(250L);
+		responseAuction.setHighestBid(highestBid);
 		responseAuction.setWinnerEmail("");
 		responseAuction.setCreateDate(new Date().getTime());
 
 		when(auctionRepository.findByItemCodeAndStatus(auction.getItemCode(), AuctionStatus.RUNNING.toString())).thenReturn(Optional.of(auction));
 		when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
 		when(bidRepository.save(bid)).thenReturn(responseBid);
-		when(auctionRepository.save(auction)).thenReturn(responseAuction);
+		when(auctionRepository.setHighestBidOptimistic(responseBid.getId(), auction.getId(), responseBid.getUser().getEmail(), responseBid.getBidAmount())).thenReturn(1);
+
+		assertEquals(new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED), bidService.bidByItem(new BidRequestDTO(bid.getBidAmount()), auction.getItemCode(), user.getEmail()));
+	}
+
+	@Test
+	public void userBiddingFirstTimeOnItemHavingRunningAuction() {
+		User user = new User();
+		user.setId(200L);
+		user.setFirstName("Mittul");
+		user.setLastName("Mandhan");
+		user.setEmail("conanmittul@gmail.com");
+
+		Auction auction = new Auction();
+		auction.setId(1L);
+		auction.setStatus(AuctionStatus.RUNNING.toString());
+		auction.setItemCode(10L);
+		auction.setBasePrice(1000L);
+		auction.setStepRate(250L);
+		auction.setWinnerEmail("");
+		auction.setCreateDate(new Date().getTime());
+		auction.setHighestBid(null);
+
+		Bid bid = new Bid();
+		bid.setBidAmount(1250L);
+		bid.setUser(user);
+		bid.setAuction(auction);
+
+		Bid responseBid = new Bid();
+		responseBid.setId(100L);
+		responseBid.setBidAmount(1250L);
+		responseBid.setUser(user);
+		responseBid.setAuction(auction);
+
+		when(auctionRepository.findByItemCodeAndStatus(auction.getItemCode(), AuctionStatus.RUNNING.toString())).thenReturn(Optional.of(auction));
+		when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
+		when(bidRepository.save(bid)).thenReturn(responseBid);
+		when(auctionRepository.setFirstBidOptimistic(responseBid.getId(), auction.getId(), responseBid.getUser().getEmail())).thenReturn(1);
 
 		assertEquals(new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED), bidService.bidByItem(new BidRequestDTO(bid.getBidAmount()), auction.getItemCode(), user.getEmail()));
 	}
