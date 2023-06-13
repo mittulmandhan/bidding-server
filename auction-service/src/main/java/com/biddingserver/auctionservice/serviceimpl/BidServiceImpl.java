@@ -76,6 +76,7 @@ public class BidServiceImpl implements BidService {
         return new ResponseEntity<>("Bid is Rejected", HttpStatus.NOT_ACCEPTABLE);
     }
 
+    // checks if the auction is almost expired or not i.e. the time after threshold
     private boolean isAuctionAlmostExpired(Auction auction) {
         Date currentTime = new Date();
         long totalDuration = auction.getDuration()*60L*1000L;
