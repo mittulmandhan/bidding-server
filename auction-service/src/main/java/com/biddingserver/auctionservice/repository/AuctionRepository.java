@@ -1,8 +1,6 @@
 package com.biddingserver.auctionservice.repository;
 
 import com.biddingserver.auctionservice.entity.Auction;
-import com.biddingserver.auctionservice.entity.Bid;
-import org.hibernate.annotations.SQLUpdate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
