@@ -9,10 +9,9 @@ import com.biddingserver.auctionservice.repository.BidRepository;
 import com.biddingserver.auctionservice.repository.UserRepository;
 import com.biddingserver.auctionservice.service.BidService;
 import com.biddingserver.auctionservice.utility.AuctionStatus;
+import com.biddingserver.auctionservice.utility.BidStatus;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.OptimisticLockException;
@@ -35,12 +34,12 @@ public class BidServiceImpl implements BidService {
     // allows user to place bid by item code
     @Transactional
     @Override
-    public ResponseEntity<String> bidByItem(BidRequestDTO bidRequestDTO, Long itemCode, String userEmail) {
+    public BidStatus bidByItem(BidRequestDTO bidRequestDTO, Long itemCode, String userEmail) {
 
         Optional<Auction> runningAuction = auctionRepository.findByItemCodeAndStatus(itemCode, AuctionStatus.RUNNING.toString());
 
         if(runningAuction.isEmpty())
-            return new ResponseEntity<>("Auction Not Found", HttpStatus.NOT_FOUND);
+            return BidStatus.AUCTION_NOT_FOUND;
 
         // get the running auction on the item
         Auction auction = runningAuction.get();
@@ -48,7 +47,7 @@ public class BidServiceImpl implements BidService {
         // if there is no running auction for the given item
         // or the auction is expired
         if(isAuctionExpired(auction))
-            return new ResponseEntity<>("Auction Not Found", HttpStatus.NOT_FOUND);
+            return BidStatus.AUCTION_NOT_FOUND;
 
         // prepare Bid
         Bid bid = prepareBid(bidRequestDTO, auction, userEmail);
@@ -57,7 +56,7 @@ public class BidServiceImpl implements BidService {
         bid = bidRepository.save(bid);
 
         if(isAuctionAlmostExpired(auction)) {
-            auction.setDuration(auction.getDuration()*2);
+            auction.setDuration(auction.getDuration()+1);
             auctionRepository.save(auction);
         }
 
@@ -70,10 +69,10 @@ public class BidServiceImpl implements BidService {
             || (auction.getHighestBid() != null && auctionRepository.setHighestBidOptimistic(bid.getId(), auction.getId(), bid.getUser().getEmail(), bid.getBidAmount()) == 0))
                 throw new OptimisticLockException();
 
-            return new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED);
+            return BidStatus.BID_ACCEPTED;
         }
 
-        return new ResponseEntity<>("Bid is Rejected", HttpStatus.NOT_ACCEPTABLE);
+        return BidStatus.BID_REJECTED;
     }
 
     // checks if the auction is almost expired or not i.e. the time after threshold

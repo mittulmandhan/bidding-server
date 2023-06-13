@@ -11,6 +11,7 @@ import com.biddingserver.auctionservice.repository.UserRepository;
 import com.biddingserver.auctionservice.service.AuctionService;
 import com.biddingserver.auctionservice.service.BidService;
 import com.biddingserver.auctionservice.utility.AuctionStatus;
+import com.biddingserver.auctionservice.utility.BidStatus;
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -124,6 +125,7 @@ class AuctionServiceApplicationTests {
 		auction.setStatus(AuctionStatus.RUNNING.toString());
 		auction.setItemCode(10L);
 		auction.setBasePrice(1000L);
+		auction.setDuration(1);
 		auction.setStepRate(250L);
 		auction.setWinnerEmail("");
 		auction.setCreateDate(new Date().getTime());
@@ -147,6 +149,7 @@ class AuctionServiceApplicationTests {
 		responseAuction.setStatus(AuctionStatus.RUNNING.toString());
 		responseAuction.setItemCode(10L);
 		responseAuction.setBasePrice(1000L);
+		responseAuction.setDuration(1);
 		responseAuction.setStepRate(250L);
 		responseAuction.setHighestBid(highestBid);
 		responseAuction.setWinnerEmail("");
@@ -157,7 +160,7 @@ class AuctionServiceApplicationTests {
 		when(bidRepository.save(bid)).thenReturn(responseBid);
 		when(auctionRepository.setHighestBidOptimistic(responseBid.getId(), auction.getId(), responseBid.getUser().getEmail(), responseBid.getBidAmount())).thenReturn(1);
 
-		assertEquals(new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED), bidService.bidByItem(new BidRequestDTO(bid.getBidAmount()), auction.getItemCode(), user.getEmail()));
+		assertEquals(BidStatus.BID_ACCEPTED, bidService.bidByItem(new BidRequestDTO(bid.getBidAmount()), auction.getItemCode(), user.getEmail()));
 	}
 
 	@Test
@@ -173,6 +176,7 @@ class AuctionServiceApplicationTests {
 		auction.setStatus(AuctionStatus.RUNNING.toString());
 		auction.setItemCode(10L);
 		auction.setBasePrice(1000L);
+		auction.setDuration(1);
 		auction.setStepRate(250L);
 		auction.setWinnerEmail("");
 		auction.setCreateDate(new Date().getTime());
@@ -194,14 +198,14 @@ class AuctionServiceApplicationTests {
 		when(bidRepository.save(bid)).thenReturn(responseBid);
 		when(auctionRepository.setFirstBidOptimistic(responseBid.getId(), auction.getId(), responseBid.getUser().getEmail())).thenReturn(1);
 
-		assertEquals(new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED), bidService.bidByItem(new BidRequestDTO(bid.getBidAmount()), auction.getItemCode(), user.getEmail()));
+		assertEquals(BidStatus.BID_ACCEPTED, bidService.bidByItem(new BidRequestDTO(bid.getBidAmount()), auction.getItemCode(), user.getEmail()));
 	}
 
 	@Test
 	public void userBiddingOnItemHavingNoRunningAuction() {
 		when(auctionRepository.findByItemCodeAndStatus(10L, AuctionStatus.RUNNING.toString())).thenReturn(Optional.empty());
 
-		assertEquals(new ResponseEntity<>("Auction Not Found", HttpStatus.NOT_FOUND), bidService.bidByItem(new BidRequestDTO(1200L), 10L, "conanmittul@gmail.com"));
+		assertEquals(BidStatus.AUCTION_NOT_FOUND, bidService.bidByItem(new BidRequestDTO(1200L), 10L, "conanmittul@gmail.com"));
 	}
 
 
@@ -219,7 +223,7 @@ class AuctionServiceApplicationTests {
 
 		when(auctionRepository.findByItemCodeAndStatus(10L, AuctionStatus.RUNNING.toString())).thenReturn(Optional.of(auction));
 
-		assertEquals(new ResponseEntity<>("Auction Not Found", HttpStatus.NOT_FOUND), bidService.bidByItem(new BidRequestDTO(1200L), 10L, "conanmittul@gmail.com"));
+		assertEquals(BidStatus.AUCTION_NOT_FOUND, bidService.bidByItem(new BidRequestDTO(1200L), 10L, "conanmittul@gmail.com"));
 	}
 
 }
