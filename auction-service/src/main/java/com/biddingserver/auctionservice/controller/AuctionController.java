@@ -27,33 +27,29 @@ public class AuctionController {
     // Allows admin to create and run the auction
     @PostMapping("/")
     public Long startAuction(@RequestBody AuctionRequestDTO auctionRequestDTO) {
-        Long auctionId = auctionService.createAuction(auctionRequestDTO);
-        return auctionId;
+        return auctionService.createAuction(auctionRequestDTO);
     }
 
     // To get the list auctions by their status
     @GetMapping("/")
     public List<AuctionResponseDto> getAuctionsByStatus(@RequestParam String status, @RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
-        // if user pass invalid status then return null
-        if(!isStatusValid(status)) {
-            return null;
+        AuctionStatus auctionStatus = null;
+        try {
+            // throws IllegalArgumentException if user has given invalid status
+            auctionStatus = AuctionStatus.valueOf(status.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Possible Values for status : " + AuctionStatus.values());
         }
 
         Pageable paged = PageRequest.of(pageNumber, pageSize);
 
-        return auctionService.getAuctionsByStatus(status.toUpperCase(), paged);
+        return auctionService.getAuctionsByStatus(auctionStatus.name(), paged);
     }
 
     // To make user bid in an auction using item code
     @PostMapping("/{itemCode}/bid")
     public ResponseEntity<String> bidByItem(@RequestBody BidRequestDTO bid, @PathVariable Long itemCode, @RequestHeader("user-email") String userEmail) {
         return bidService.bidByItem(bid, itemCode, userEmail);
-    }
-
-    // checks if Auction Status is valid or not
-    private boolean isStatusValid(String status) {
-        String s = status.toUpperCase();
-        return s.equals(AuctionStatus.RUNNING.toString()) || s.equals(AuctionStatus.OVER.toString());
     }
 
 }
