@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.OptimisticLockException;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Optional;
@@ -57,14 +58,12 @@ public class BidServiceImpl implements BidService {
 
         // if the bid been placed is acceptable
         // then save it in the corresponding auction
-        if(isBidAcceptable(auction, bid)) {
-
-            // save bid as highest
-            auction.setHighestBid(bid);
-            // save highest bidder's email
-            auction.setWinnerEmail(bid.getUser().getEmail());
+        if (isBidAcceptable(auction, bid)) {
             // save auction
-            auction = auctionRepository.save(auction);
+            //update auction a set a.highest_bid = bid.getHighestBid() where a.highest_bid < bid.getHighestBid(); this method will return int (number of updated records
+            if ((auction.getHighestBid() == null && auctionRepository.setFirstBidOptimistic(bid.getId(), auction.getId(), bid.getUser().getEmail()) == 0)
+            || (auction.getHighestBid() != null && auctionRepository.setHighestBidOptimistic(bid.getId(), auction.getId(), bid.getUser().getEmail(), bid.getBidAmount()) == 0))
+                throw new OptimisticLockException();
 
             return new ResponseEntity<>("Bid is Accepted", HttpStatus.CREATED);
         }
