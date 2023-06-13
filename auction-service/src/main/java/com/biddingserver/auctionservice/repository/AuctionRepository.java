@@ -17,6 +17,7 @@ import java.util.Optional;
 public interface AuctionRepository extends PagingAndSortingRepository<Auction, Long> {
     Optional<Auction> findByItemCodeAndStatus(Long itemCode, String status);
 
+    List<Auction> findAllByStatus(String status);
 
     List<Auction> findAllByStatus(String auctionStatus, Pageable paged);
 
