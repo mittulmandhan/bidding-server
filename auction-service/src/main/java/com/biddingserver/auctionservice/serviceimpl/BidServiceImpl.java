@@ -56,6 +56,11 @@ public class BidServiceImpl implements BidService {
         // save Bid
         bid = bidRepository.save(bid);
 
+        if(isAuctionAlmostExpired(auction)) {
+            auction.setDuration(auction.getDuration()*2);
+            auctionRepository.save(auction);
+        }
+
         // if the bid been placed is acceptable
         // then save it in the corresponding auction
         if (isBidAcceptable(auction, bid)) {
@@ -69,6 +74,14 @@ public class BidServiceImpl implements BidService {
         }
 
         return new ResponseEntity<>("Bid is Rejected", HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    private boolean isAuctionAlmostExpired(Auction auction) {
+        Date currentTime = new Date();
+        long totalDuration = auction.getDuration()*60L*1000L;
+        int threshold = 90;
+        Date thresholdTime = DateUtils.addMilliseconds(new Date(auction.getCreateDate()), (int) ((totalDuration/100)*threshold));
+        return currentTime.after(thresholdTime);
     }
 
     // checks if the auction is expired
