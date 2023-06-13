@@ -44,7 +44,23 @@ The server allows following capabilities to their web-based auction clients:
 * Graddle
 
 ## Setup Guide
-yet to be added
+- Must Have:
+    - Java 11
+    - MySQL 8.0.33
+    - Docker 23.0.5
+
+- Run the RabbitMQ instance using following command:<br />
+```docker run -d --hostname auction-rabbit --name auction-rabbit-container -p 15672:15672 -p 5672:5672 rabbitmq:3-management```
+
+- Run MySQL instance on ```localhost:3306``` and set username and password accordingly in the properties file.
+
+- Now, create a database with name ```auction_db```
+
+- Now run all the services security-service, cloud-config-server, cloud-gateway, security-service, auction-service in the exact sequence as mentioned.
+- Import API collection in PostMan using this link ```https://api.postman.com/collections/8756666-938eaa2d-ae47-460c-b58a-91d3b4f7536f?access_key=PMAT-01H2V28EZ0F2V2MC234HTF9Q2R```
+- Register Users and authenticate them to get the JWT Token and add jwts with the request
+- Now you can start auctions, start bidding on them and get running auctions by status.
+
 
 ## Architecture
 #### Microservices
